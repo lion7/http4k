@@ -5,12 +5,17 @@ import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import okio.Okio
 import okio.buffer
 import okio.source
 import org.http4k.core.Body
 import org.http4k.core.ContentType
 import org.http4k.core.ContentType.Companion.APPLICATION_JSON
+import org.http4k.format.MoshiNode.MoshiArray
+import org.http4k.format.MoshiNode.MoshiBoolean
+import org.http4k.format.MoshiNode.MoshiNull
+import org.http4k.format.MoshiNode.MoshiNumber
+import org.http4k.format.MoshiNode.MoshiObject
+import org.http4k.format.MoshiNode.MoshiString
 import org.http4k.lens.BiDiBodyLensSpec
 import org.http4k.lens.BiDiMapping
 import org.http4k.lens.BiDiWsMessageLensSpec
@@ -26,7 +31,7 @@ import kotlin.reflect.KClass
 open class ConfigurableMoshi(
     builder: Moshi.Builder,
     val defaultContentType: ContentType = APPLICATION_JSON
-) : AutoMarshalling() {
+) : AutoMarshallingJson<MoshiNode>() {
 
     private val moshi: Moshi = builder.build()
 
@@ -58,6 +63,79 @@ open class ConfigurableMoshi(
 
     inline fun <reified T : Any> WsMessage.Companion.auto(): BiDiWsMessageLensSpec<T> =
         WsMessage.string().map({ it.asA(T::class) }, { asFormatString(it) })
+
+    override fun asJsonObject(input: Any): MoshiNode = asA(asFormatString(input))
+
+    override fun MoshiNode.asPrettyJsonString(): String = asFormatString(this)
+
+    override fun MoshiNode.asCompactJsonString(): String = asFormatString(this)
+
+    override fun String.asJsonObject(): MoshiNode = asA(this, MoshiNode::class)
+
+    override fun String?.asJsonValue(): MoshiNode = this?.let(::MoshiString) ?: MoshiNull
+
+    override fun Int?.asJsonValue(): MoshiNode = this?.let(::MoshiNumber) ?: MoshiNull
+
+    override fun Double?.asJsonValue(): MoshiNode = this?.let(::MoshiNumber) ?: MoshiNull
+
+    override fun Long?.asJsonValue(): MoshiNode = this?.let(::MoshiNumber) ?: MoshiNull
+
+    override fun BigDecimal?.asJsonValue(): MoshiNode = this?.let(::MoshiNumber) ?: MoshiNull
+
+    override fun BigInteger?.asJsonValue(): MoshiNode = this?.let(::MoshiNumber) ?: MoshiNull
+
+    override fun Boolean?.asJsonValue(): MoshiNode = this?.let(::MoshiBoolean) ?: MoshiNull
+
+    override fun <T : Iterable<MoshiNode>> T.asJsonArray(): MoshiNode = MoshiArray(toList())
+
+    override fun <LIST : Iterable<Pair<String, MoshiNode>>> LIST.asJsonObject(): MoshiNode = MoshiObject(toMap())
+
+    override fun typeOf(value: MoshiNode) = when (value) {
+        is MoshiString -> JsonType.String
+        is MoshiBoolean -> JsonType.Boolean
+        is MoshiNumber -> JsonType.Number
+        is MoshiArray -> JsonType.Array
+        is MoshiObject -> JsonType.Object
+        is MoshiNull -> JsonType.Null
+    }
+
+    override fun fields(node: MoshiNode): Iterable<Pair<String, MoshiNode>> = when (node) {
+        is MoshiObject -> node.fields.toList()
+        else -> emptyList()
+    }
+
+    override fun elements(value: MoshiNode): Iterable<MoshiNode> = when (value) {
+        is MoshiObject -> value.fields.map { it.value }.toList()
+        is MoshiArray -> value.elements
+        else -> emptyList()
+    }
+
+    override fun text(value: MoshiNode) = when (value) {
+        is MoshiString -> value.value
+        else -> error("not a string node")
+    }
+
+    override fun bool(value: MoshiNode) = when (value) {
+        is MoshiBoolean -> value.value
+        else -> error("not a boolean node")
+    }
+
+    override fun integer(value: MoshiNode) = when (value) {
+        is MoshiNumber -> value.value.toLong()
+        else -> error("not a number node")
+    }
+
+    override fun decimal(value: MoshiNode) = when (value) {
+        is MoshiNumber -> BigDecimal(value.value.toDouble())
+        else -> error("not a number node")
+    }
+
+    override fun textValueOf(node: MoshiNode, name: String) = when (node) {
+        is MoshiObject -> node[name]?.let { text(it) }
+        else -> null
+    }
+
+    override fun <T : Any> asA(j: MoshiNode, target: KClass<T>) = asA(asFormatString(j), target)
 }
 
 fun Moshi.Builder.asConfigurable() = object : AutoMappingConfiguration<Moshi.Builder> {
@@ -95,9 +173,15 @@ fun Moshi.Builder.asConfigurable() = object : AutoMappingConfiguration<Moshi.Bui
             }.nullSafe())
         }
 
-    // add the Kotlin adapter last, as it will hjiack our custom mappings otherwise
+    // add the Kotlin adapter last, as it will hijack our custom mappings otherwise
     override fun done() =
-        this@asConfigurable.add(KotlinJsonAdapterFactory()).add(Unit::class.java, UnitAdapter)
+        this@asConfigurable
+            .add(EventAdapter)
+            .add(ThrowableAdapter)
+            .add(CollectionEdgeCasesAdapter)
+            .add(MoshiNodeAdapter)
+            .add(Unit::class.java, UnitAdapter)
+            .addLast(KotlinJsonAdapterFactory())
 }
 
 private object UnitAdapter : JsonAdapter<Unit>() {

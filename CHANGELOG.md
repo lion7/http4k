@@ -1756,7 +1756,7 @@ to `RequestContextKey.of()` with `RequestContextKey.required()`
 - Fix for #24 - UriTemplate captures query parameters when the trailing path parameter is a regex.
 
 ### v2.1.0
-- Added GSON full-auto functions to convert arbitary objects to/from JSON.
+- Added GSON full-auto functions to convert arbitrary objects to/from JSON.
 
 ### v2.0.5
 - Fix #23. Contract now supports multi-part URL params (for hardcoded parts)

@@ -7,9 +7,6 @@ import com.squareup.moshi.Moshi
  */
 object Moshi : ConfigurableMoshi(
     Moshi.Builder()
-        .addLast(EventAdapter)
-        .addLast(ThrowableAdapter)
-        .addLast(CollectionEdgeCasesAdapter)
         .asConfigurable()
         .withStandardMappings()
         .done()

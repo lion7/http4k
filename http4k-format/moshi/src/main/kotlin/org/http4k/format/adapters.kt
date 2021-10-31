@@ -38,7 +38,7 @@ inline fun <reified T : JsonAdapter<K>, reified K> Moshi.Builder.addTyped(fn: T)
 /**
  * This adapter factory will capture ALL instances of a particular superclass/interface.
  */
-abstract class IsAnInstanceOfAdapter<T : Any>(private val clazz: KClass<T>): JsonAdapter.Factory {
+abstract class IsAnInstanceOfAdapter<T : Any>(private val clazz: KClass<T>) : JsonAdapter.Factory {
     override fun create(type: Type, annotations: Set<Annotation>, moshi: Moshi) =
         with(Types.getRawType(type)) {
             when {

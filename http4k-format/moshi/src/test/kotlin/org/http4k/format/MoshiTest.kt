@@ -13,7 +13,8 @@ import org.junit.jupiter.api.Test
 
 class MoshiAutoTest : AutoMarshallingJsonContract(Moshi) {
 
-    override val expectedAutoMarshallingResult = """{"string":"hello","child":{"string":"world","numbers":[1],"bool":true},"numbers":[],"bool":false}"""
+    override val expectedAutoMarshallingResult =
+        """{"string":"hello","child":{"string":"world","numbers":[1],"bool":true},"numbers":[],"bool":false}"""
 
     @Test
     @Disabled("Currently doesn't work because of need for custom list adapters")
@@ -39,6 +40,13 @@ class MoshiAutoTest : AutoMarshallingJsonContract(Moshi) {
         val actual = Moshi.asA<Array<ArbObject>>(jsonString)
         val expected = arrayOf(obj)
         assertThat(actual.toList().toString(), actual.toList(), equalTo(expected.toList()))
+    }
+
+    @Test
+    fun `roundtrip arbitrary object to and from JSON element`() {
+        val obj = ArbObject("hello", ArbObject("world", null, listOf(1), true), emptyList(), false)
+        val out = Moshi.asJsonObject(obj)
+        assertThat(Moshi.asA(out, ArbObject::class), equalTo(obj))
     }
 
     override fun customMarshaller() = object : ConfigurableMoshi(Builder().asConfigurable().customise()) {}
