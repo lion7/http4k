@@ -27,7 +27,7 @@ sealed class MoshiNode {
     object MoshiNull : MoshiNode()
 }
 
-object MoshiNodeAdapter : JsonAdapter.Factory,  JsonAdapter<MoshiNode>(){
+object MoshiNodeAdapter : JsonAdapter.Factory, JsonAdapter<MoshiNode>() {
     override fun create(type: Type, annotations: Set<Annotation>, moshi: Moshi) =
         takeIf { MoshiNode::class.java.isAssignableFrom(Types.getRawType(type)) }
 
@@ -78,7 +78,12 @@ object MoshiNodeAdapter : JsonAdapter.Factory,  JsonAdapter<MoshiNode>(){
                 MoshiNode.MoshiObject(map)
             }
             BOOLEAN -> MoshiNode.MoshiBoolean(nextBoolean())
-            NUMBER -> MoshiNode.MoshiNumber(nextLong())
+            NUMBER -> try {
+                peekJson().nextLong()
+                MoshiNode.MoshiNumber(nextLong())
+            } catch (e: JsonDataException) {
+                MoshiNode.MoshiNumber(nextDouble())
+            }
             STRING -> MoshiNode.MoshiString(nextString())
             else -> throw JsonDataException("illegal value at $path")
         }

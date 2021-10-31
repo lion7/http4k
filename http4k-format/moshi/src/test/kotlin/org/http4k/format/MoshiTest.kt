@@ -45,8 +45,24 @@ class MoshiAutoTest : AutoMarshallingJsonContract(Moshi) {
     @Test
     fun `roundtrip arbitrary object to and from JSON element`() {
         val obj = ArbObject("hello", ArbObject("world", null, listOf(1), true), emptyList(), false)
-        val out = Moshi.asJsonObject(obj)
-        assertThat(Moshi.asA(out, ArbObject::class), equalTo(obj))
+        assertThat(Moshi.asA(Moshi.asJsonObject(obj), ArbObject::class), equalTo(obj))
+    }
+
+    data class LongHolder(val long: Long)
+    data class IntHolder(val int: Int)
+    data class DoubleHolder(val double: Double)
+
+    @Test
+    fun `roundtrip number types to and from JSON element`() {
+        roundtrip(LongHolder(123))
+        roundtrip(IntHolder(123))
+        roundtrip(DoubleHolder(1.23))
+    }
+
+    inline fun <reified T : Any> roundtrip(input: T) {
+        assertThat(Moshi.asA(Moshi.asFormatString(input), T::class), equalTo(input))
+
+        assertThat(Moshi.asA(Moshi.asJsonObject(input), T::class), equalTo(input))
     }
 
     override fun customMarshaller() = object : ConfigurableMoshi(Builder().asConfigurable().customise()) {}
