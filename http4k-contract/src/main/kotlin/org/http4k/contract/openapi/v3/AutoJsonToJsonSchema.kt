@@ -122,7 +122,7 @@ class AutoJsonToJsonSchema<NODE : Any>(
         val properties = json.fields(this)
             .map { Triple(it.first, it.second, objWithStringKeys[it.first]!!) }
             .map { (fieldName, field, value) -> makePropertySchemaFor(field, fieldName, value, false, null) }
-            .map { it.name() to it }.toMap()
+            .associateBy { it.name() }
 
         return if (namePrefix.isNotBlank()) {
             SchemaNode.Reference(
