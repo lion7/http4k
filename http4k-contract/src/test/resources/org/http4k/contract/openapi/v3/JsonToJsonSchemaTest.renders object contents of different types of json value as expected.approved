@@ -1,10 +1,10 @@
 {
   "node": {
-    "$ref": "#/components/schemas/bob"
+    "$ref": "#/components/schemas/bobobject545711716"
   },
   "definitions": [
     {
-      "first": "object1241320217",
+      "first": "bobobject1241320217",
       "second": {
         "type": "object",
         "required": [
@@ -18,7 +18,7 @@
       }
     },
     {
-      "first": "object-239060560",
+      "first": "bobobject-239060560",
       "second": {
         "type": "object",
         "required": [
@@ -32,7 +32,7 @@
       }
     },
     {
-      "first": "bob",
+      "first": "bobobject545711716",
       "second": {
         "type": "object",
         "required": [
@@ -61,14 +61,14 @@
           "anArray": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/object1241320217"
+              "$ref": "#/components/schemas/bobobject1241320217"
             }
           },
           "anObject": {
-            "$ref": "#/components/schemas/object-239060560"
+            "$ref": "#/components/schemas/bobobject-239060560"
           },
           "anotherObject": {
-            "$ref": "#/components/schemas/object-239060560"
+            "$ref": "#/components/schemas/bobobject-239060560"
           }
         }
       }

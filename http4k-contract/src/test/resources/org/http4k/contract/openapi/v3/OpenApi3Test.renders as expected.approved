@@ -268,7 +268,7 @@
                 }
               },
               "schema": {
-                "$ref": "#/components/schemas/someDefinitionId"
+                "$ref": "#/components/schemas/somePrefixobject1337203653"
               }
             }
           },
@@ -417,7 +417,7 @@
         "parameters": [
           {
             "schema": {
-              "$ref": "#/components/schemas/e"
+              "$ref": "#/components/schemas/eobject744721296"
             },
             "in": "header",
             "name": "e",
@@ -601,7 +601,7 @@
         "parameters": [
           {
             "schema": {
-              "$ref": "#/components/schemas/foo"
+              "$ref": "#/components/schemas/fooobject744721296"
             },
             "in": "path",
             "name": "foo",
@@ -670,7 +670,7 @@
         "parameters": [
           {
             "schema": {
-              "$ref": "#/components/schemas/e"
+              "$ref": "#/components/schemas/eobject744721296"
             },
             "in": "query",
             "name": "e",
@@ -766,14 +766,14 @@
   },
   "components": {
     "schemas": {
-      "foo": {
+      "fooobject744721296": {
         "type": "object",
         "required": [
         ],
         "properties": {
         }
       },
-      "e": {
+      "eobject744721296": {
         "type": "object",
         "required": [
         ],
@@ -791,13 +791,24 @@
           }
         }
       },
-      "someDefinitionId": {
+      "somePrefixobject540438179": {
+        "type": "object",
+        "required": [
+        ],
+        "properties": {
+          "aNumberField": {
+            "type": "integer",
+            "example": 123
+          }
+        }
+      },
+      "somePrefixobject1337203653": {
         "type": "object",
         "required": [
         ],
         "properties": {
           "anAnotherObject": {
-            "$ref": "#/components/schemas/object540438179"
+            "$ref": "#/components/schemas/somePrefixobject540438179"
           }
         }
       },

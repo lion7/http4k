@@ -15,12 +15,12 @@ class JsonToJsonSchema<NODE>(
     private val json: Json<NODE>,
     private val refPrefix: String = "definitions"
 ) : JsonSchemaCreator<NODE, NODE> {
-    override fun toSchema(obj: NODE, overrideDefinitionId: String?) = JsonSchema(obj, emptySet()).toSchema(overrideDefinitionId)
+    override fun toSchema(obj: NODE, prefix: String?) = JsonSchema(obj, emptySet()).toSchema(prefix)
 
-    private fun JsonSchema<NODE>.toSchema(overrideDefinitionId: String? = null): JsonSchema<NODE> =
+    private fun JsonSchema<NODE>.toSchema(prefix: String? = null): JsonSchema<NODE> =
         when (json.typeOf(node)) {
-            JsonType.Object -> objectSchema(overrideDefinitionId)
-            JsonType.Array -> arraySchema(overrideDefinitionId)
+            JsonType.Object -> objectSchema(prefix)
+            JsonType.Array -> arraySchema(prefix)
             JsonType.String -> JsonSchema(StringParam.schema(json.string(json.text(node))), definitions)
             JsonType.Integer -> numberSchema()
             JsonType.Number -> numberSchema()

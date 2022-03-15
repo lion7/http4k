@@ -274,7 +274,7 @@
                 }
               },
               "schema": {
-                "$ref": "#/components/schemas/someDefinitionId"
+                "$ref": "#/components/schemas/somePrefixobject1807517618"
               }
             }
           },
@@ -806,13 +806,24 @@
           }
         }
       },
-      "someDefinitionId": {
+      "somePrefixobject1089648089": {
+        "type": "object",
+        "required": [
+        ],
+        "properties": {
+          "aNumberField": {
+            "type": "integer",
+            "example": 123
+          }
+        }
+      },
+      "somePrefixobject1807517618": {
         "type": "object",
         "required": [
         ],
         "properties": {
           "anAnotherObject": {
-            "$ref": "#/components/schemas/object1089648089"
+            "$ref": "#/components/schemas/somePrefixobject1089648089"
           }
         }
       },

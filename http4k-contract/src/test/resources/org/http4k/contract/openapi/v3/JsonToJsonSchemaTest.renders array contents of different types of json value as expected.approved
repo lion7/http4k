@@ -2,12 +2,12 @@
   "node": {
     "type": "array",
     "items": {
-      "$ref": "#/components/schemas/bob"
+      "$ref": "#/components/schemas/bobobject1241320217"
     }
   },
   "definitions": [
     {
-      "first": "bob",
+      "first": "bobobject1241320217",
       "second": {
         "type": "object",
         "required": [

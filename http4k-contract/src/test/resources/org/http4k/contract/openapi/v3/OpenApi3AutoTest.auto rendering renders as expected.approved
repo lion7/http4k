@@ -93,7 +93,7 @@
                 "bool": true
               },
               "schema": {
-                "$ref": "#/components/schemas/someOtherId",
+                "$ref": "#/components/schemas/someOtherIdArbObject2",
                 "example": null,
                 "description": null
               }
@@ -362,12 +362,12 @@
                 "schema": {
                   "oneOf": [
                     {
-                      "$ref": "#/components/schemas/impl1",
+                      "$ref": "#/components/schemas/impl1InterfaceHolder",
                       "example": null,
                       "description": null
                     },
                     {
-                      "$ref": "#/components/schemas/impl2",
+                      "$ref": "#/components/schemas/impl2InterfaceHolder",
                       "example": null,
                       "description": null
                     }
@@ -390,7 +390,7 @@
   },
   "components": {
     "schemas": {
-      "someOtherId": {
+      "someOtherIdArbObject2": {
         "properties": {
           "string": {
             "example": "s",
@@ -398,7 +398,7 @@
             "type": "string"
           },
           "child": {
-            "$ref": "#/components/schemas/ArbObject1",
+            "$ref": "#/components/schemas/someOtherIdArbObject1",
             "example": null,
             "description": null
           },
@@ -436,7 +436,7 @@
           "string"
         ]
       },
-      "ArbObject1": {
+      "someOtherIdArbObject1": {
         "properties": {
           "anotherString": {
             "$ref": "#/components/schemas/Foo",
@@ -445,7 +445,7 @@
           }
         },
         "example": {
-          "anotherString": "bing"
+          "anotherString": "bar"
         },
         "description": null,
         "type": "object",
@@ -472,6 +472,23 @@
         },
         "example": {
           "anotherString": "bar"
+        },
+        "description": null,
+        "type": "object",
+        "required": [
+          "anotherString"
+        ]
+      },
+      "ArbObject1": {
+        "properties": {
+          "anotherString": {
+            "$ref": "#/components/schemas/Foo",
+            "example": null,
+            "description": null
+          }
+        },
+        "example": {
+          "anotherString": "bing"
         },
         "description": null,
         "type": "object",
@@ -522,10 +539,10 @@
           "uri"
         ]
       },
-      "impl1": {
+      "impl1InterfaceHolder": {
         "properties": {
           "obj": {
-            "$ref": "#/components/schemas/Impl1",
+            "$ref": "#/components/schemas/impl1Impl1",
             "example": null,
             "description": null
           }
@@ -541,7 +558,7 @@
           "obj"
         ]
       },
-      "Impl1": {
+      "impl1Impl1": {
         "properties": {
           "value": {
             "example": "bob",
@@ -558,10 +575,10 @@
           "value"
         ]
       },
-      "impl2": {
+      "impl2InterfaceHolder": {
         "properties": {
           "obj": {
-            "$ref": "#/components/schemas/Impl2",
+            "$ref": "#/components/schemas/impl2Impl2",
             "example": null,
             "description": null
           }
@@ -577,7 +594,7 @@
           "obj"
         ]
       },
-      "Impl2": {
+      "impl2Impl2": {
         "properties": {
           "value": {
             "example": 123,

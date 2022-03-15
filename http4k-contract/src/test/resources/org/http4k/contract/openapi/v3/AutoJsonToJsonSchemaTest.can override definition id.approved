@@ -1,12 +1,12 @@
 {
   "node": {
-    "$ref": "#/customPrefix/foobar",
+    "$ref": "#/customPrefix/foobarorg.http4k.contract.openapi.v3.JsonPrimitives",
     "example": null,
     "description": null
   },
   "definitions": [
     {
-      "first": "foobar",
+      "first": "foobarorg.http4k.contract.openapi.v3.JsonPrimitives",
       "second": {
         "properties": {
           "string": {

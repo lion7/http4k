@@ -292,7 +292,7 @@
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/someDefinitionId"
+              "$ref": "#/definitions/somePrefix"
             },
             "description": "json"
           }
@@ -858,7 +858,7 @@
         }
       }
     },
-    "someDefinitionId": {
+    "somePrefix": {
       "type": "object",
       "properties": {
         "anAnotherObject": {

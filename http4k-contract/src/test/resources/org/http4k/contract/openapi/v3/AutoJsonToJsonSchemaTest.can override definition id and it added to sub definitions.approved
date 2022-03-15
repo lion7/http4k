@@ -1,22 +1,22 @@
 {
   "node": {
-    "$ref": "#/customPrefix/foobar",
+    "$ref": "#/customPrefix/foobarorg.http4k.contract.openapi.v3.ArbObject",
     "example": null,
     "description": null
   },
   "definitions": [
     {
-      "first": "foobar",
+      "first": "foobarorg.http4k.contract.openapi.v3.ArbObject",
       "second": {
         "properties": {
           "child": {
-            "$ref": "#/customPrefix/org.http4k.contract.openapi.v3.ArbObject2",
+            "$ref": "#/customPrefix/foobarorg.http4k.contract.openapi.v3.ArbObject2",
             "example": null,
             "description": null
           },
           "list": {
             "items": {
-              "$ref": "#/customPrefix/org.http4k.contract.openapi.v3.ArbObject2"
+              "$ref": "#/customPrefix/foobarorg.http4k.contract.openapi.v3.ArbObject2"
             },
             "example": [
               {
@@ -32,7 +32,7 @@
           "nestedList": {
             "items": {
               "items": {
-                "$ref": "#/customPrefix/org.http4k.contract.openapi.v3.ArbObject2"
+                "$ref": "#/customPrefix/foobarorg.http4k.contract.openapi.v3.ArbObject2"
               },
               "type": "array"
             },
@@ -50,7 +50,7 @@
             "type": "array"
           },
           "nullableChild": {
-            "$ref": "#/customPrefix/org.http4k.contract.openapi.v3.ArbObject2",
+            "$ref": "#/customPrefix/foobarorg.http4k.contract.openapi.v3.ArbObject2",
             "example": null,
             "description": null
           },
@@ -70,7 +70,7 @@
               "oneOf": [
                 {
                   "items": {
-                    "$ref": "#/customPrefix/org.http4k.contract.openapi.v3.ArbObject2"
+                    "$ref": "#/customPrefix/foobarorg.http4k.contract.openapi.v3.ArbObject2"
                   },
                   "type": "array"
                 },
@@ -81,7 +81,7 @@
                   "type": "boolean"
                 },
                 {
-                  "$ref": "#/customPrefix/org.http4k.contract.openapi.v3.ArbObject2"
+                  "$ref": "#/customPrefix/foobarorg.http4k.contract.openapi.v3.ArbObject2"
                 }
               ]
             },
@@ -161,7 +161,7 @@
       }
     },
     {
-      "first": "org.http4k.contract.openapi.v3.ArbObject2",
+      "first": "foobarorg.http4k.contract.openapi.v3.ArbObject2",
       "second": {
         "properties": {
           "uri": {
